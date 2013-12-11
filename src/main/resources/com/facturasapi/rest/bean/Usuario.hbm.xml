@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-dic-2013 19:27:18 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.facturasapi.rest.bean.Usuario" table="usuario" schema="public">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" not-null="true" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" not-null="true" />
+        </property>
+        <property name="key" type="binary">
+            <column name="key" />
+        </property>
+        <property name="cert" type="binary">
+            <column name="cert" />
+        </property>
+        <property name="clave" type="string">
+            <column name="clave" />
+        </property>
+    </class>
+</hibernate-mapping>

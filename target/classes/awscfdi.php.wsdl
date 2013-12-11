@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:advanswsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:advanswsdl">
+<types>
+<xsd:schema targetNamespace="urn:advanswsdl"
+>
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+ <xsd:complexType name="RespuestaTimbre">
+  <xsd:all>
+   <xsd:element name="Code" type="xsd:string"/>
+   <xsd:element name="SubCode" type="xsd:string"/>
+   <xsd:element name="Message" type="xsd:string"/>
+   <xsd:element name="Timbre" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="RespuestaTimbre2">
+  <xsd:all>
+   <xsd:element name="Code" type="xsd:string"/>
+   <xsd:element name="SubCode" type="xsd:string"/>
+   <xsd:element name="Message" type="xsd:string"/>
+   <xsd:element name="CFDI" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="RespuestaCancelacion">
+  <xsd:all>
+   <xsd:element name="Code" type="xsd:string"/>
+   <xsd:element name="SubCode" type="xsd:string"/>
+   <xsd:element name="Message" type="xsd:string"/>
+   <xsd:element name="Acuse" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="RespuestaConsulta">
+  <xsd:all>
+   <xsd:element name="Code" type="xsd:string"/>
+   <xsd:element name="SubCode" type="xsd:string"/>
+   <xsd:element name="Message" type="xsd:string"/>
+   <xsd:element name="Acuse" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="timbrarRequest">
+  <part name="credential" type="xsd:string" />
+  <part name="cfdi" type="xsd:string" /></message>
+<message name="timbrarResponse">
+  <part name="return" type="tns:RespuestaTimbre" /></message>
+<message name="timbrar2Request">
+  <part name="credential" type="xsd:string" />
+  <part name="cfdi" type="xsd:string" /></message>
+<message name="timbrar2Response">
+  <part name="return" type="tns:RespuestaTimbre2" /></message>
+<message name="cancelarRequest">
+  <part name="credential" type="xsd:string" />
+  <part name="rfc_emisor" type="xsd:string" />
+  <part name="uuid" type="xsd:string" />
+  <part name="key" type="xsd:string" />
+  <part name="cer" type="xsd:string" /></message>
+<message name="cancelarResponse">
+  <part name="return" type="tns:RespuestaCancelacion" /></message>
+<message name="cancelarPFXSyncRequest">
+  <part name="credential" type="xsd:string" />
+  <part name="rfc_emisor" type="xsd:string" />
+  <part name="uuid" type="xsd:string" />
+  <part name="pfx" type="xsd:string" />
+  <part name="pfx_password" type="xsd:string" /></message>
+<message name="cancelarPFXSyncResponse">
+  <part name="return" type="tns:RespuestaCancelacion" /></message>
+<message name="consultarRequest">
+  <part name="credential" type="xsd:string" />
+  <part name="uuid" type="xsd:string" /></message>
+<message name="consultarResponse">
+  <part name="return" type="tns:RespuestaConsulta" /></message>
+<message name="consultar_cfdiRequest">
+  <part name="credential" type="xsd:string" />
+  <part name="uuid" type="xsd:string" /></message>
+<message name="consultar_cfdiResponse">
+  <part name="return" type="tns:RespuestaConsulta" /></message>
+<portType name="advanswsdlPortType">
+  <operation name="timbrar">
+    <documentation>Método para timbrado de CFDI's</documentation>
+    <input message="tns:timbrarRequest"/>
+    <output message="tns:timbrarResponse"/>
+  </operation>
+  <operation name="timbrar2">
+    <documentation>Método alternativo para timbrado de CFDI's en el que regresa el CFDI completo en vez de solo el timbre.</documentation>
+    <input message="tns:timbrar2Request"/>
+    <output message="tns:timbrar2Response"/>
+  </operation>
+  <operation name="cancelar">
+    <documentation>Método para cancelación de CFDI's</documentation>
+    <input message="tns:cancelarRequest"/>
+    <output message="tns:cancelarResponse"/>
+  </operation>
+  <operation name="cancelarPFXSync">
+    <documentation>Método para cancelación de CFDI's</documentation>
+    <input message="tns:cancelarPFXSyncRequest"/>
+    <output message="tns:cancelarPFXSyncResponse"/>
+  </operation>
+  <operation name="consultar">
+    <documentation>Método para consultar estado de los timbres</documentation>
+    <input message="tns:consultarRequest"/>
+    <output message="tns:consultarResponse"/>
+  </operation>
+  <operation name="consultar_cfdi">
+    <documentation>Método para consultar estado de los timbres (Responde CFDI completo)</documentation>
+    <input message="tns:consultar_cfdiRequest"/>
+    <output message="tns:consultar_cfdiResponse"/>
+  </operation>
+</portType>
+<binding name="advanswsdlBinding" type="tns:advanswsdlPortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="timbrar">
+    <soap:operation soapAction="urn:advanswsdl#timbrar" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="timbrar2">
+    <soap:operation soapAction="urn:advanswsdl#timbrar" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="cancelar">
+    <soap:operation soapAction="urn:advanswsdl#cancelar" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="cancelarPFXSync">
+    <soap:operation soapAction="urn:advanswsdl#cancelarPFXSync" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="consultar">
+    <soap:operation soapAction="urn:advanswsdl#consulta" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="consultar_cfdi">
+    <soap:operation soapAction="urn:advanswsdl#consulta" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:advanswsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+</binding>
+<service name="advanswsdl">
+  <port name="advanswsdlPort" binding="tns:advanswsdlBinding">
+    <soap:address location="https://dev.advans.mx:443/ws/awscfdi.php"/>
+  </port>
+</service>
+</definitions>

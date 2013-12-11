@@ -1,0 +1,88 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from advanswsdl WSDL service -->
+
+  <service name="advanswsdlPort" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="urn:advanswsdl"/>
+      <parameter name="wsdlServiceElement" value="advanswsdl"/>
+      <parameter name="schemaUnqualified" value="urn:advanswsdl"/>
+      <parameter name="wsdlServicePort" value="advanswsdlPort"/>
+      <parameter name="className" value="dev.advans.wsdl.AdvanswsdlBindingImpl"/>
+      <parameter name="wsdlPortType" value="advanswsdlPortType"/>
+      <parameter name="typeMappingVersion" value="1.1"/>
+      <operation name="timbrar" qname="operNS:timbrar" xmlns:operNS="urn:advanswsdl" returnQName="return" returnType="rtns:RespuestaTimbre" xmlns:rtns="urn:advanswsdl" soapAction="urn:advanswsdl#timbrar" >
+        <parameter qname="credential" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="cfdi" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="timbrar2" qname="operNS:timbrar2" xmlns:operNS="urn:advanswsdl" returnQName="return" returnType="rtns:RespuestaTimbre2" xmlns:rtns="urn:advanswsdl" soapAction="urn:advanswsdl#timbrar" >
+        <parameter qname="credential" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="cfdi" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="cancelar" qname="operNS:cancelar" xmlns:operNS="urn:advanswsdl" returnQName="return" returnType="rtns:RespuestaCancelacion" xmlns:rtns="urn:advanswsdl" soapAction="urn:advanswsdl#cancelar" >
+        <parameter qname="credential" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="rfc_emisor" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="uuid" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="key" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="cer" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="cancelarPFXSync" qname="operNS:cancelarPFXSync" xmlns:operNS="urn:advanswsdl" returnQName="return" returnType="rtns:RespuestaCancelacion" xmlns:rtns="urn:advanswsdl" soapAction="urn:advanswsdl#cancelarPFXSync" >
+        <parameter qname="credential" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="rfc_emisor" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="uuid" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pfx" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pfx_password" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="consultar" qname="operNS:consultar" xmlns:operNS="urn:advanswsdl" returnQName="return" returnType="rtns:RespuestaConsulta" xmlns:rtns="urn:advanswsdl" soapAction="urn:advanswsdl#consulta" >
+        <parameter qname="credential" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="uuid" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="consultar_cfdi" qname="operNS:consultar_cfdi" xmlns:operNS="urn:advanswsdl" returnQName="return" returnType="rtns:RespuestaConsulta" xmlns:rtns="urn:advanswsdl" soapAction="urn:advanswsdl#consulta" >
+        <parameter qname="credential" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="uuid" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="timbrar consultar_cfdi consultar cancelar timbrar2 cancelarPFXSync"/>
+
+      <typeMapping
+        xmlns:ns="urn:advanswsdl"
+        qname="ns:RespuestaConsulta"
+        type="java:dev.advans.wsdl.RespuestaConsulta"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="urn:advanswsdl"
+        qname="ns:RespuestaTimbre2"
+        type="java:dev.advans.wsdl.RespuestaTimbre2"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="urn:advanswsdl"
+        qname="ns:RespuestaCancelacion"
+        type="java:dev.advans.wsdl.RespuestaCancelacion"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="urn:advanswsdl"
+        qname="ns:RespuestaTimbre"
+        type="java:dev.advans.wsdl.RespuestaTimbre"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+  </service>
+</deployment>
